@@ -9,10 +9,7 @@ It combines:
 - **Probability**
 - **Hypothesis testing**
 - **Preprocessing**
-- **Visualizations**
 - **Educational examples**
-
-with **NumPy speed**, **Numba optimizations**, and **Khan-Academy–style explanations**.
 
 ---
 
@@ -23,7 +20,6 @@ with **NumPy speed**, **Numba optimizations**, and **Khan-Academy–style explan
 - Matrix operations: `matmul`, `add`, `subtract`, `transpose`, `inverse`, `det`, …
 - Vector operations: `dot`, `norm`, `angle`, `projection`, …
 - Decompositions: **LU**, **QR**, **SVD** *(optional upgrade)*
-- **Interactive visualizations** for matrix multiplication, dot products, transformations, etc.
 
 ---
 
