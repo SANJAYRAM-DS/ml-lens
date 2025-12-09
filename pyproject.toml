@@ -1,0 +1,47 @@
+[tool.poetry]
+name = "math4ml"
+version = "0.1.5"
+description = "A lightweight math and statistics library for machine learning with educational tutorials and interactive examples."
+authors = ["Sanjay Ram - sanjayram.data@gmail.com"]
+license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/SANJAYRAM-DS"
+repository = "https://github.com/SANJAYRAM-DS/math4ml"
+documentation = "https://github.com/SANJAYRAM-DS/math4ml"
+keywords = ["math", "machine-learning", "linear-algebra", "statistics", "ml", "education", "numpy"]
+packages = [
+    { include = "math4ml", from = "src"  }
+]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+numpy = "^1.25"
+scipy = "^1.12"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4"
+black = "^24.3"
+flake8 = "^7.0"
+mypy = "^1.8"
+jupyter = "^1.0"
+
+[build-system]
+requires = ["poetry-core>=1.6.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+math4ml-cli = "math4ml.cli:main"
+
+[tool.black]
+line-length = 88
+target-version = ['py39']
+
+[tool.flake8]
+max-line-length = 88
+extend-ignore = ["E203", "W503"]
+
+[tool.mypy]
+python_version = 3.9
+check_untyped_defs = true
+disallow_untyped_defs = true
+ignore_missing_imports = true
