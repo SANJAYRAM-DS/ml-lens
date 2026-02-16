@@ -1,152 +1,325 @@
-# 📘 **math4ml — A Lightweight Math & Stats Library for Machine Learning**
+<div align="center">
 
-**math4ml** is a modular, NumPy-backed Python library designed to **teach**, **visualize**, and **compute** the mathematics behind AI & Machine Learning.
+<img src="img.png" alt="ML-Lense Logo" width="200"/>
 
-It combines:
+# ML-Lense
 
-- **Linear algebra**
-- **Statistics**
-- **Probability**
-- **Hypothesis testing**
-- **Preprocessing**
-- **Educational examples**
+### Understand Machine Learning — Not Just Use It.
 
----
+Explainable, interpretable, and educational tooling that reveals *how ML really works* under the hood.
 
-# 🚀 **Features**
+[![License](https://img.shields.io/badge/license-MIT-purple.svg)](LICENSE)
+[![Python](https://img.shields.io/badge/python-3.9+-blue.svg)]()
+[![Status](https://img.shields.io/badge/status-active-success.svg)]()
 
-## **1. Linear Algebra**
-
-- Matrix operations: `matmul`, `add`, `subtract`, `transpose`, `inverse`, `det`, …
-- Vector operations: `dot`, `norm`, `angle`, `projection`, …
-- Decompositions: **LU**, **QR**, **SVD** *(optional upgrade)*
+</div>
 
 ---
 
-## **2. Statistics**
+## ✨ What is ML-Lense?
 
-- Descriptive stats: `mean`, `var`, `std`, `median`, `range`
-- Correlation: **Pearson**, **Spearman**
-- Distributions: **normal**, **binomial**, **uniform**, **Poisson**
-- Hypothesis tests:
-  - **t-test**
-  - **chi-square test**
-  - **ANOVA**
-  - **z-test**
-  - **non-parametric tests** (coming soon)
+**ML-Lense** is an open-source library that helps you **see inside machine learning**.
 
----
+Instead of treating ML as a black box, ML-Lense explains:
 
-## **3. Probability**
+- Why a model made a prediction  
+- How parameters were learned  
+- What math drives each algorithm  
+- How features influence outcomes  
+- What happens during training step-by-step  
 
-- PMF, PDF, CDF utilities
-- Combinatorics: `nCr`, `nPr`
-- Bayes theorem helpers
-- Random variable simulation utilities
+It is designed for:
 
----
+- Researchers  
+- Students  
+- Engineers  
+- Educators  
+- Curious builders  
 
-## **4. Preprocessing**
-
-- Scaling:
-  - StandardScaler
-  - MinMaxScaler
-  - MaxAbsScaler
-  - RobustScaler
-- Encoding:
-  - One-hot
-  - Label
-  - Binary
-- Feature engineering helpers
-
----
-## **5.optimization**
-
--
-
-## **6.ml_models**
--classification_models
-    -"LogisticRegression",
-    -"NaiveBayes",
-    -"KNN"
--linear_models
-    -"LinearRegression",
-    -"RidgeRegression",
-    -"LassoRegression"
--metrics
-    -"RegressionMetrics",
-    -"ClassificationMetrics"
--validation
-    -"CrossValidation"
-
-## **7. Educational Tools**
-
-Every function includes:
-
-- 🧮 **Mathematical formula**
-- 📘 **Concept explanation**
-- 🔍 **Assumptions**
-- ✏️ **Step-by-step example**
-- 📓 **Jupyter notebook tutorials**
-
-Perfect for **students learning ML math**, **data scientists**, and **AI researchers**.
+If scikit-learn helps you **build models**,  
+ML-Lense helps you **understand them**.
 
 ---
 
-# 📦 **Installation**
+## 🧠 Philosophy
 
-### **PyPI**
+Modern ML tooling focuses on:
+
+- Accuracy
+- Speed
+- Scale
+
+But rarely on:
+
+- Understanding
+- Interpretability
+- First-principles learning
+
+ML-Lense exists to change that.
+
+> ML should be understandable, not mysterious.
+
+---
+
+## 🔍 Core Idea
+
+Train any model → Get a **deep explanation layer**.
+
+```python
+from sklearn.linear_model import LinearRegression
+from ml_lense import explain
+
+model = LinearRegression().fit(X, y)
+report = explain(model, X, y)
+
+report.show()
+```
+
+ML-Lense generates:
+
+- Parameter reasoning
+- Mathematical derivations
+- Feature importance breakdown
+- Training dynamics
+- Human-readable explanations
+
+---
+
+## 🚀 Features
+
+### 1️⃣ Parameter Transparency
+Understand why weights were chosen.
+
+- Linear models → closed-form math
+- Neural nets → gradient dynamics
+- Tree models → split logic
+
+### 2️⃣ Math-Aware Explanations
+Every output maps back to math.
+
+- Loss function analysis
+- Gradient flow visualization
+- Optimization reasoning
+- Statistical assumptions
+
+### 3️⃣ Training Dynamics
+See what happens during learning.
+
+- Convergence behavior
+- Bias vs variance shifts
+- Overfitting detection
+- Learning stability
+
+### 4️⃣ Feature Attribution
+Not just importance — causation-aware insights
+
+- Local explanations
+- Global influence
+- Interaction effects
+- Feature sensitivity curves
+
+### 5️⃣ First-Principles Reports
+ML-Lense produces structured outputs:
+
+- Markdown reports
+- PDF summaries
+- Interactive notebooks
+- Teaching-ready visualizations
+
+---
+
+## 📚 Supported Domains (Roadmap)
+
+### Classical ML
+- Linear Regression
+- Logistic Regression
+- SVM
+- kNN
+- Decision Trees
+- Random Forest
+- Gradient Boosting
+
+### Deep Learning
+- MLPs
+- CNNs
+- Transformers (planned)
+- Attention analysis
+
+### Statistics
+- Hypothesis testing insights
+- t-tests, chi-square reasoning
+- Distribution assumptions
+- Sampling diagnostics
+
+### Time Series
+- ARIMA interpretability
+- Seasonality decomposition
+- Forecast uncertainty analysis
+
+---
+
+## 🧪 Example Outputs
+
+ML-Lense produces explanations like:
+
+> "Weight w₃ is large because feature variance is high and strongly correlated with the target."
+
+> "Model confidence comes from low residual spread across 92% of samples."
+
+> "Gradient oscillations indicate suboptimal learning rate."
+
+---
+
+## 🎯 Use Cases
+
+### 🎓 Education
+- Learn ML intuitively
+- Teach algorithms visually
+- Bridge math ↔ implementation
+
+### 🔬 Research
+- Interpret experimental models
+- Debug training failures
+- Generate explanation reports
+
+### 🏭 Production ML
+- Model debugging
+- Stakeholder explainability
+- Responsible AI documentation
+
+---
+
+## 🆚 How is this different?
+
+| Tool | Focus |
+|------|-------|
+| scikit-learn | Model building |
+| SHAP/LIME | Feature attribution |
+| TensorBoard | Training metrics |
+| **ML-Lense** | **Full-stack understanding** |
+
+ML-Lense combines:
+
+- Math
+- Training behavior
+- Interpretability
+- Intuition
+
+In one unified layer.
+
+---
+
+## � Installation
 
 ```bash
-pip install math4ml
+pip install ml-lense
+```
 
+Or development install:
 
-**🧠 Quickstart Example**
-just use print(math4ml.linalg.__doc__), print(math4ml.__doc__) or help(math4ml)
+```bash
+git clone https://github.com/SANJAYRAM-DS/ml-lense
+cd ml-lense
+pip install -e .
+```
 
-from math4ml.linalg import matmul
-from math4ml.stats import t_test
+---
 
-print(matmul([[1, 2]], [[3], [4]]))
+## ⚡ Quick Start
 
-stat, p = t_test([1,2,3], [3,4,5])
-print("T-stat:", stat, "P-value:", p)
+```python
+from ml_lense import explain
+from sklearn.datasets import load_diabetes
+from sklearn.linear_model import Ridge
 
-📚 Tutorials
-🔍 Explore: https://github.com/SANJAYRAM-DS/math4ml.tutorials.git
+X, y = load_diabetes(return_X_y=True)
+model = Ridge().fit(X, y)
 
-Contains:
+lens = explain(model, X, y)
 
--Linear algebra examples
+lens.summary()
+lens.math()
+lens.training_dynamics()
+lens.feature_story()
+```
 
--Statistical tests
+---
 
--Probability examples
+## 📊 Outputs
 
--Preprocessing tutorials
+ML-Lense can generate:
 
--optimization
+- 📄 Markdown reports
+- 📘 Research-ready PDFs
+- 📊 Visual dashboards
+- 🧠 Math walkthroughs
 
--ml_models
+---
 
-🤝 Contributing
+## 🧱 Design Principles
 
-We welcome contributions from everyone!
+- Minimal API
+- Model-agnostic
+- Math-first
+- Research-grade clarity
+- Documentation-friendly
 
-You can help by:
+---
 
--🐛 Reporting issues
+## 🤝 Contributing
 
--🌟 Suggesting features
+We welcome contributors from:
 
--📘 Improving documentation
+- ML researchers
+- Students
+- Educators
+- Open-source developers
 
--🧪 Adding tests
+Ways to contribute:
 
--🧩 Adding examples
+- Add model explainers
+- Improve math modules
+- Create tutorials
+- Expand domains (time series, NLP, CV)
 
--🔧 Submitting pull requests
+See CONTRIBUTING.md for details.
 
-📝 License
+---
 
-MIT License — free for commercial, educational, and research use.
+## 🌍 Vision
+
+ML-Lense aims to become:
+
+**The "NumPy for understanding machine learning."**
+
+A universal layer that makes every model:
+
+- Transparent
+- Learnable
+- Explainable
+- Trustworthy
+
+---
+
+## � License
+
+MIT License — use freely in research and industry.
+
+---
+
+## ⭐ If you like ML-Lense
+
+- Star the repo
+- Share with learners
+- Use in teaching
+- Contribute ideas
+
+**Let's make machine learning understandable.**
+
+---
+
+<div align="center">
+
+Built with clarity in mind.
+
+</div>
