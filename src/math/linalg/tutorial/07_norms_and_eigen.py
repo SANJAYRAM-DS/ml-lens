@@ -57,5 +57,14 @@ def run_tutorial():
     print(f"  Dominant Eigenvalue: {eigenvalue:.5f}")
     print(f"  Dominant Eigenvector: {[round(x, 5) for x in eigenvector]}")
 
+
+    # --- Educational Expose ---
+    print("\n=== EXPLAINABILITY SHOWCASE ===")
+    from mllense.math.linalg import eye
+    demo = eye(2, how_lense=True)
+    print("- [WHAT LENSE]:", demo.what_lense.split('\n')[0])
+    print("- [HOW LENSE]:", demo.how_lense.split('\n')[0], "...")
+
 if __name__ == "__main__":
-    run_tutorial()
+    print('\nRunning with Educational Engine v2.0\n')
+run_tutorial()

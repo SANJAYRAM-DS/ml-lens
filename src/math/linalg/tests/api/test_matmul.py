@@ -18,7 +18,7 @@ def test_matmul_numpy_backend():
     a = np.array([[1.0, 2.0], [3.0, 4.0]])
     b = np.array([[5.0, 6.0], [7.0, 8.0]])
     res = matmul(a, b)
-    assert isinstance(res, np.ndarray)
+    assert isinstance(getattr(res, "value", res), np.ndarray)
     assert np.allclose(res, [[19.0, 22.0], [43.0, 50.0]])
 
 def test_matmul_1d():

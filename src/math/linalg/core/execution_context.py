@@ -22,7 +22,14 @@ class ExecutionContext:
         algorithm_hint: Optional algorithm name override (bypass auto-selection).
     """
 
-    __slots__ = ("_backend", "_mode", "_trace_enabled", "_algorithm_hint")
+    __slots__ = (
+        "_backend",
+        "_mode",
+        "_trace_enabled",
+        "_algorithm_hint",
+        "_what_lense_enabled",
+        "_how_lense_enabled",
+    )
 
     def __init__(
         self,
@@ -30,6 +37,8 @@ class ExecutionContext:
         mode: ExecutionMode,
         trace_enabled: bool = False,
         algorithm_hint: str | None = None,
+        what_lense_enabled: bool = True,
+        how_lense_enabled: bool = False,
     ) -> None:
         from mllense.math.linalg.registry.backend_registry import backend_registry
         from mllense.math.linalg.exceptions import InvalidBackendError
@@ -41,6 +50,8 @@ class ExecutionContext:
         object.__setattr__(self, "_mode", mode)
         object.__setattr__(self, "_trace_enabled", trace_enabled)
         object.__setattr__(self, "_algorithm_hint", algorithm_hint)
+        object.__setattr__(self, "_what_lense_enabled", what_lense_enabled)
+        object.__setattr__(self, "_how_lense_enabled", how_lense_enabled)
 
     # -- immutable properties --------------------------------------------- #
     @property
@@ -58,6 +69,14 @@ class ExecutionContext:
     @property
     def algorithm_hint(self) -> str | None:
         return self._algorithm_hint  # type: ignore[return-value]
+
+    @property
+    def what_lense_enabled(self) -> bool:
+        return self._what_lense_enabled  # type: ignore[return-value]
+
+    @property
+    def how_lense_enabled(self) -> bool:
+        return self._how_lense_enabled  # type: ignore[return-value]
 
     def __setattr__(self, key: str, value: Any) -> None:
         raise AttributeError(
@@ -77,6 +96,8 @@ class ExecutionContext:
             mode=kwargs.get("mode", self._mode),  # type: ignore[arg-type]
             trace_enabled=kwargs.get("trace_enabled", self._trace_enabled),  # type: ignore[arg-type]
             algorithm_hint=kwargs.get("algorithm_hint", self._algorithm_hint),  # type: ignore[arg-type]
+            what_lense_enabled=kwargs.get("what_lense_enabled", self._what_lense_enabled),  # type: ignore[arg-type]
+            how_lense_enabled=kwargs.get("how_lense_enabled", self._how_lense_enabled),  # type: ignore[arg-type]
         )
 
     @staticmethod
@@ -95,5 +116,7 @@ class ExecutionContext:
         return (
             f"ExecutionContext(backend={self.backend!r}, mode={self.mode!r}, "
             f"trace_enabled={self.trace_enabled!r}, "
-            f"algorithm_hint={self.algorithm_hint!r})"
+            f"algorithm_hint={self.algorithm_hint!r}, "
+            f"what_lense_enabled={self.what_lense_enabled!r}, "
+            f"how_lense_enabled={self.how_lense_enabled!r})"
         )

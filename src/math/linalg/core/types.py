@@ -64,6 +64,9 @@ def to_internal_vector(v: VectorLike) -> InternalVector:
     """Normalise a 1-D input to ``list[float]``."""
     from mllense.math.linalg.exceptions import EmptyMatrixError, InvalidInputError
 
+    if hasattr(v, "value") and hasattr(v, "what_lense"):
+        v = v.value
+
     if isinstance(v, np.ndarray):
         if v.ndim != 1:
             raise InvalidInputError(
@@ -89,6 +92,9 @@ def to_internal_matrix(m: MatrixLike) -> InternalMatrix:
         InvalidInputError,
         NonRectangularMatrixError,
     )
+
+    if hasattr(m, "value") and hasattr(m, "what_lense"):
+        m = m.value
 
     if isinstance(m, np.ndarray):
         if m.ndim == 1:
@@ -136,21 +142,29 @@ def to_internal_matrix(m: MatrixLike) -> InternalMatrix:
 
 
 def from_internal_matrix(
-    internal: InternalMatrix, *, as_numpy: bool = False
+    internal: InternalMatrix,
+    *,
+    as_numpy: bool = False,
+    what_lense: str = "",
+    how_lense: str = ""
 ) -> MatrixLike:
     """Convert an internal matrix back to the caller's preferred format."""
     if as_numpy:
-        return np.array(internal, dtype=np.float64)
-    return internal
+        return LenseMatrixNumpy(internal, what_lense=what_lense, how_lense=how_lense)
+    return LenseMatrixList(internal, what_lense=what_lense, how_lense=how_lense)
 
 
 def from_internal_vector(
-    internal: InternalVector, *, as_numpy: bool = False
+    internal: InternalVector,
+    *,
+    as_numpy: bool = False,
+    what_lense: str = "",
+    how_lense: str = ""
 ) -> VectorLike:
     """Convert an internal vector back to the caller's preferred format."""
     if as_numpy:
-        return np.array(internal, dtype=np.float64)
-    return internal
+        return LenseMatrixNumpy(internal, what_lense=what_lense, how_lense=how_lense)
+    return LenseMatrixList(internal, what_lense=what_lense, how_lense=how_lense)
 
 
 def get_matrix_shape(m: InternalMatrix) -> tuple[int, int]:
@@ -163,3 +177,27 @@ def get_matrix_shape(m: InternalMatrix) -> tuple[int, int]:
 def get_vector_length(v: InternalVector) -> int:
     """Return the length of an already-validated internal vector."""
     return len(v)
+
+
+class LenseMatrixList(list):
+    """List subclass that holds extra educational context attributes."""
+    def __init__(self, data, what_lense="", how_lense=""):
+        super().__init__(data)
+        self.what_lense = what_lense
+        self.how_lense = how_lense
+
+
+class LenseMatrixNumpy(np.ndarray):
+    """Numpy array subclass that holds extra educational context attributes."""
+    def __new__(cls, input_array, what_lense="", how_lense=""):
+        obj = np.asarray(input_array).view(cls)
+        obj.what_lense = what_lense
+        obj.how_lense = how_lense
+        return obj
+
+    def __array_finalize__(self, obj):
+        if obj is None:
+            return
+        self.what_lense = getattr(obj, "what_lense", "")
+        self.how_lense = getattr(obj, "how_lense", "")
+

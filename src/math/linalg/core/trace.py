@@ -78,6 +78,35 @@ class Trace:
         )
         self._steps.append(step)
 
+    def _format_matrix(self, matrix: list[list[float]] | Any) -> str:
+        """Helper to format a matrix with truncation for large matrices."""
+        if not isinstance(matrix, list) or not matrix or not isinstance(matrix[0], list):
+            return str(matrix)
+
+        rows = len(matrix)
+        cols = len(matrix[0]) if rows > 0 else 0
+        if rows <= 10 and cols <= 10:
+            return str(matrix)
+
+        lines = ["["]
+        for i in range(rows):
+            if rows > 10 and 5 <= i < rows - 5:
+                if i == 5:
+                    lines.append("  [ ... intermediate rows omitted ... ],")
+                continue
+                
+            row_str = "  ["
+            for j in range(cols):
+                if cols > 10 and 5 <= j < cols - 5:
+                    if j == 5:
+                        row_str += " ..., "
+                    continue
+                row_str += f"{matrix[i][j]:.4g}, "
+            row_str = row_str.rstrip(", ") + "],"
+            lines.append(row_str)
+        lines.append("]")
+        return "\n".join(lines)
+
     def replay(self) -> str:
         """Return a formatted multi-line string of all recorded steps."""
         if not self._steps:
@@ -89,7 +118,8 @@ class Trace:
                 header += f" — {s.description}"
             lines.append(header)
             if s.data is not None:
-                lines.append(f"  Data: {s.data}")
+                formatted_data = self._format_matrix(s.data)
+                lines.append(f"  Data: {formatted_data}")
             if s.complexity_note:
                 lines.append(f"  Complexity: {s.complexity_note}")
         return "\n".join(lines)

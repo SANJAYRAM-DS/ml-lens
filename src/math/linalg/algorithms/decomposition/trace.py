@@ -40,8 +40,7 @@ class MatrixTrace(BaseDecomposition):
         m: InternalMatrix = args[0]
         n = validate_square(m, operation="trace")
 
-        import math
-        result = math.fsum(m[i][i] for i in range(n))
+        result = sum(m[i][i] for i in range(n))
 
         trace.record(
             operation="matrix_trace",

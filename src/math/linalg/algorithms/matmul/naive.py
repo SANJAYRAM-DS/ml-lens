@@ -114,6 +114,58 @@ class NaiveMatmul(BaseAlgorithm):
             data=result,
         )
 
+        what = context.what_lense_enabled
+        how = context.how_lense_enabled
+
+        if what:
+            self.what_lense = (
+                "=== WHAT: Matrix Multiplication ===\n"
+                "Matrix multiplication (dot product) combines the rows of the first matrix with the "
+                "columns of the second. Each element in the result is the sum of the products of "
+                "corresponding elements.\n\n"
+                "=== WHY we need it in ML ===\n"
+                "It allows us to compute many linear combinations at once. It forms the core of "
+                "feed-forward neural networks (Weights * Inputs), attention mechanisms (Q * K^T), "
+                "and embedding projections.\n\n"
+                "=== WHERE it is used in Real ML ===\n"
+                "1. Dense/Linear Layers: Output = Weights @ Inputs + Bias.\n"
+                "2. Convolutions: Often lowered to matrix multiplication (im2col).\n"
+                "3. Transformers: Self-attention relies heavily on batched matrix multiplications."
+            )
+        else:
+            self.what_lense = ""
+
+        if how:
+            checkpoints = []
+            checkpoints.append(f"1. Validated shapes: A({m}x{k}) @ B({k}x{n}) -> Result({m}x{n}).")
+            checkpoints.append(f"2. Initialized empty output matrix of shape {m}x{n}.")
+            checkpoints.append(f"3. Triple-loop computation (m={m}, k={k}, n={n}):")
+            
+            total_ops = m * k * n
+            op_count = 0
+            omitted = False
+
+            for i in range(m):
+                for j in range(n):
+                    # For each cell in result, we did k products
+                    for j_k in range(k):
+                        op_count += 1
+                        if total_ops <= 10 or op_count <= 5 or op_count > total_ops - 5:
+                            val_a = a[i][j_k]
+                            val_b = b[j_k][j]
+                            checkpoints.append(
+                                f"   - Result[{i}][{j}] += A[{i}][{j_k}] * B[{j_k}][{j}] "
+                                f"({val_a} * {val_b} = {val_a * val_b})"
+                            )
+                        elif not omitted:
+                            checkpoints.append("   - ... (skipped intermediate multiplications) ...")
+                            omitted = True
+
+            checkpoints.append("4. Finished matrix multiplication.")
+            self.how_lense = "\n".join(checkpoints)
+        else:
+            self.how_lense = ""
+
         # collapse to vector or scalar when appropriate
         if m == 1 and n == 1:
             return result[0][0]

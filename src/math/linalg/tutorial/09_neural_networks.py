@@ -75,5 +75,14 @@ def run_tutorial():
     print(f"\nNumerical Gradient of f(x) at {val}:")
     print(f"  {grad}")
 
+
+    # --- Educational Expose ---
+    print("\n=== EXPLAINABILITY SHOWCASE ===")
+    from mllense.math.linalg import eye
+    demo = eye(2, how_lense=True)
+    print("- [WHAT LENSE]:", demo.what_lense.split('\n')[0])
+    print("- [HOW LENSE]:", demo.how_lense.split('\n')[0], "...")
+
 if __name__ == "__main__":
-    run_tutorial()
+    print('\nRunning with Educational Engine v2.0\n')
+run_tutorial()

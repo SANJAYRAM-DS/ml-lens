@@ -5,6 +5,8 @@
 
 from __future__ import annotations
 
+from mllense.math.linalg.core.metadata import LinalgResult
+
 import math
 from typing import Any, Optional, Union
 
@@ -28,6 +30,8 @@ def _build_context(
     backend: Optional[str] = None,
     mode: Optional[str] = None,
     trace_enabled: Optional[bool] = None,
+    what_lense_enabled: bool = True,
+    how_lense_enabled: bool = False,
 ) -> ExecutionContext:
     from mllense.math.linalg.config import get_config
     cfg = get_config()
@@ -35,6 +39,9 @@ def _build_context(
         backend=backend or cfg.default_backend,
         mode=ExecutionMode.from_string(mode or cfg.default_mode),
         trace_enabled=trace_enabled if trace_enabled is not None else cfg.trace_enabled,
+        what_lense_enabled=what_lense_enabled,
+        how_lense_enabled=how_lense_enabled,
+        
     )
 
 
@@ -44,10 +51,12 @@ def frobenius_norm(
     backend: Optional[str] = None,
     mode: Optional[str] = None,
     trace_enabled: Optional[bool] = None,
+    what_lense: bool = True,
+    how_lense: bool = False,
 ) -> float:
     """Compute the Frobenius norm of a matrix."""
     a_int = to_internal_matrix(a)
-    ctx = _build_context(backend, mode, trace_enabled)
+    ctx = _build_context(backend, mode, trace_enabled, what_lense_enabled=what_lense, how_lense_enabled=how_lense)
     trace = Trace(enabled=ctx.trace_enabled)
     return FrobeniusNorm().execute(a_int, context=ctx, trace=trace)
 
@@ -58,10 +67,12 @@ def spectral_norm(
     backend: Optional[str] = None,
     mode: Optional[str] = None,
     trace_enabled: Optional[bool] = None,
+    what_lense: bool = True,
+    how_lense: bool = False,
 ) -> float:
     """Compute the spectral (2-norm) of a matrix."""
     a_int = to_internal_matrix(a)
-    ctx = _build_context(backend, mode, trace_enabled)
+    ctx = _build_context(backend, mode, trace_enabled, what_lense_enabled=what_lense, how_lense_enabled=how_lense)
     trace = Trace(enabled=ctx.trace_enabled)
     return SpectralNorm().execute(a_int, context=ctx, trace=trace)
 

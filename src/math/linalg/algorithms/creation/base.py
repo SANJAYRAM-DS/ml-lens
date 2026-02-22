@@ -1,6 +1,3 @@
-# ==============================
-# File: linalg/algorithms/creation/base.py
-# ==============================
 """Base class for matrix/vector creation algorithms."""
 
 from __future__ import annotations

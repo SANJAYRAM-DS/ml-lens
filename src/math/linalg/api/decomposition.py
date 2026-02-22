@@ -5,6 +5,8 @@
 
 from __future__ import annotations
 
+from mllense.math.linalg.core.metadata import LinalgResult
+
 from typing import Any, Optional, Tuple, Union
 
 import numpy as np
@@ -33,6 +35,8 @@ def _build_context(
     backend: Optional[str] = None,
     mode: Optional[str] = None,
     trace_enabled: Optional[bool] = None,
+    what_lense_enabled: bool = True,
+    how_lense_enabled: bool = False,
 ) -> ExecutionContext:
     from mllense.math.linalg.config import get_config
     cfg = get_config()
@@ -40,6 +44,9 @@ def _build_context(
         backend=backend or cfg.default_backend,
         mode=ExecutionMode.from_string(mode or cfg.default_mode),
         trace_enabled=trace_enabled if trace_enabled is not None else cfg.trace_enabled,
+        what_lense_enabled=what_lense_enabled,
+        how_lense_enabled=how_lense_enabled,
+        
     )
 
 
@@ -49,10 +56,12 @@ def det(
     backend: Optional[str] = None,
     mode: Optional[str] = None,
     trace_enabled: Optional[bool] = None,
+    what_lense: bool = True,
+    how_lense: bool = False,
 ) -> float:
     """Compute the determinant of a square matrix."""
     a_int = to_internal_matrix(a)
-    ctx = _build_context(backend, mode, trace_enabled)
+    ctx = _build_context(backend, mode, trace_enabled, what_lense_enabled=what_lense, how_lense_enabled=how_lense)
     trace = Trace(enabled=ctx.trace_enabled)
     return Determinant().execute(a_int, context=ctx, trace=trace)
 
@@ -63,16 +72,22 @@ def inv(
     backend: Optional[str] = None,
     mode: Optional[str] = None,
     trace_enabled: Optional[bool] = None,
+    what_lense: bool = True,
+    how_lense: bool = False,
 ) -> MatrixLike:
     """Compute the inverse of a square matrix."""
     return_numpy = is_numpy(a)
     a_int = to_internal_matrix(a)
-    ctx = _build_context(backend, mode, trace_enabled)
+    ctx = _build_context(backend, mode, trace_enabled, what_lense_enabled=what_lense, how_lense_enabled=how_lense)
     trace = Trace(enabled=ctx.trace_enabled)
     result = Inverse().execute(a_int, context=ctx, trace=trace)
-    if return_numpy:
-        return np.array(result, dtype=np.float64)
-    return result
+    formatted_val = np.array(result, dtype=np.float64) if return_numpy else result
+    return LinalgResult(
+        value=formatted_val,
+        what_lense=algo._generate_what_lense() if "algo" in locals() else "" if ("ctx" in locals() and hasattr(locals()["ctx"], "what_lense_enabled")) and locals()["ctx"].what_lense_enabled else "",
+        how_lense=algo._finalize_how_lense() if "algo" in locals() else "" if ("ctx" in locals() and hasattr(locals()["ctx"], "how_lense_enabled")) and locals()["ctx"].how_lense_enabled else "",
+        metadata=getattr(locals().get("algo"), "metadata", None)
+    )
 
 
 def matrix_trace(
@@ -81,10 +96,12 @@ def matrix_trace(
     backend: Optional[str] = None,
     mode: Optional[str] = None,
     trace_enabled: Optional[bool] = None,
+    what_lense: bool = True,
+    how_lense: bool = False,
 ) -> float:
     """Compute the trace (sum of diagonal) of a square matrix."""
     a_int = to_internal_matrix(a)
-    ctx = _build_context(backend, mode, trace_enabled)
+    ctx = _build_context(backend, mode, trace_enabled, what_lense_enabled=what_lense, how_lense_enabled=how_lense)
     trace = Trace(enabled=ctx.trace_enabled)
     return MatrixTrace().execute(a_int, context=ctx, trace=trace)
 
@@ -95,11 +112,13 @@ def qr(
     backend: Optional[str] = None,
     mode: Optional[str] = None,
     trace_enabled: Optional[bool] = None,
+    what_lense: bool = True,
+    how_lense: bool = False,
 ) -> Tuple[MatrixLike, MatrixLike]:
     """Compute QR decomposition ``A = QR``."""
     return_numpy = is_numpy(a)
     a_int = to_internal_matrix(a)
-    ctx = _build_context(backend, mode, trace_enabled)
+    ctx = _build_context(backend, mode, trace_enabled, what_lense_enabled=what_lense, how_lense_enabled=how_lense)
     trace = Trace(enabled=ctx.trace_enabled)
     q, r = QRDecomposition().execute(a_int, context=ctx, trace=trace)
     if return_numpy:
@@ -113,11 +132,13 @@ def svd(
     backend: Optional[str] = None,
     mode: Optional[str] = None,
     trace_enabled: Optional[bool] = None,
+    what_lense: bool = True,
+    how_lense: bool = False,
 ) -> Tuple[MatrixLike, Any, MatrixLike]:
     """Compute SVD decomposition ``A = U Σ V^T``."""
     return_numpy = is_numpy(a)
     a_int = to_internal_matrix(a)
-    ctx = _build_context(backend, mode, trace_enabled)
+    ctx = _build_context(backend, mode, trace_enabled, what_lense_enabled=what_lense, how_lense_enabled=how_lense)
     trace = Trace(enabled=ctx.trace_enabled)
     u, sigma, vt = SVDDecomposition().execute(a_int, context=ctx, trace=trace)
     if return_numpy:
@@ -131,11 +152,13 @@ def eig(
     backend: Optional[str] = None,
     mode: Optional[str] = None,
     trace_enabled: Optional[bool] = None,
+    what_lense: bool = True,
+    how_lense: bool = False,
 ) -> Tuple[Any, MatrixLike]:
     """Compute eigenvalues and eigenvectors."""
     return_numpy = is_numpy(a)
     a_int = to_internal_matrix(a)
-    ctx = _build_context(backend, mode, trace_enabled)
+    ctx = _build_context(backend, mode, trace_enabled, what_lense_enabled=what_lense, how_lense_enabled=how_lense)
     trace = Trace(enabled=ctx.trace_enabled)
     eigenvalues, eigenvectors = EigenDecomposition().execute(a_int, context=ctx, trace=trace)
     if return_numpy:

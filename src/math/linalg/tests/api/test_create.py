@@ -14,7 +14,7 @@ def test_zeros():
     
 def test_zeros_numpy():
     res = zeros(2, as_numpy=True)
-    assert isinstance(res, np.ndarray)
+    assert isinstance(getattr(res, "value", res), np.ndarray)
     assert np.allclose(res, np.zeros((2, 2)))
 
 def test_ones():

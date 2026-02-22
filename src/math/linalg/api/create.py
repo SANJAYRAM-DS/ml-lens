@@ -5,6 +5,8 @@
 
 from __future__ import annotations
 
+from mllense.math.linalg.core.metadata import LinalgResult
+
 from typing import Any, Optional, Union
 
 import numpy as np
@@ -28,6 +30,8 @@ def _build_context(
     backend: Optional[str] = None,
     mode: Optional[str] = None,
     trace_enabled: Optional[bool] = None,
+    what_lense_enabled: bool = True,
+    how_lense_enabled: bool = False,
 ) -> ExecutionContext:
     from mllense.math.linalg.config import get_config
 
@@ -36,6 +40,9 @@ def _build_context(
         backend=backend or cfg.default_backend,
         mode=ExecutionMode.from_string(mode or cfg.default_mode),
         trace_enabled=trace_enabled if trace_enabled is not None else cfg.trace_enabled,
+        what_lense_enabled=what_lense_enabled,
+        how_lense_enabled=how_lense_enabled,
+        
     )
 
 
@@ -55,6 +62,8 @@ def zeros(
     backend: Optional[str] = None,
     mode: Optional[str] = None,
     trace_enabled: Optional[bool] = None,
+    what_lense: bool = True,
+    how_lense: bool = False,
 ) -> MatrixLike:
     """Create a zero matrix of shape ``(rows, cols)``.
 
@@ -64,11 +73,17 @@ def zeros(
         as_numpy: If True, return a numpy array.
     """
     c = cols if cols is not None else rows
-    ctx = _build_context(backend, mode, trace_enabled)
+    ctx = _build_context(backend, mode, trace_enabled, what_lense_enabled=what_lense, how_lense_enabled=how_lense)
     trace = Trace(enabled=ctx.trace_enabled)
     algo = ZerosCreation()
     result = algo.execute(rows, c, context=ctx, trace=trace)
-    return _format_result(result, as_numpy=as_numpy)
+    formatted_val = _format_result(result, as_numpy=as_numpy)
+    return LinalgResult(
+        value=formatted_val,
+        what_lense=algo._generate_what_lense() if "algo" in locals() else "" if ("ctx" in locals() and hasattr(locals()["ctx"], "what_lense_enabled")) and locals()["ctx"].what_lense_enabled else "",
+        how_lense=algo._finalize_how_lense() if "algo" in locals() else "" if ("ctx" in locals() and hasattr(locals()["ctx"], "how_lense_enabled")) and locals()["ctx"].how_lense_enabled else "",
+        metadata=getattr(locals().get("algo"), "metadata", None)
+    )
 
 
 def ones(
@@ -79,6 +94,8 @@ def ones(
     backend: Optional[str] = None,
     mode: Optional[str] = None,
     trace_enabled: Optional[bool] = None,
+    what_lense: bool = True,
+    how_lense: bool = False,
 ) -> MatrixLike:
     """Create a matrix of ones of shape ``(rows, cols)``.
 
@@ -88,11 +105,17 @@ def ones(
         as_numpy: If True, return a numpy array.
     """
     c = cols if cols is not None else rows
-    ctx = _build_context(backend, mode, trace_enabled)
+    ctx = _build_context(backend, mode, trace_enabled, what_lense_enabled=what_lense, how_lense_enabled=how_lense)
     trace = Trace(enabled=ctx.trace_enabled)
     algo = OnesCreation()
     result = algo.execute(rows, c, context=ctx, trace=trace)
-    return _format_result(result, as_numpy=as_numpy)
+    formatted_val = _format_result(result, as_numpy=as_numpy)
+    return LinalgResult(
+        value=formatted_val,
+        what_lense=algo._generate_what_lense() if "algo" in locals() else "" if ("ctx" in locals() and hasattr(locals()["ctx"], "what_lense_enabled")) and locals()["ctx"].what_lense_enabled else "",
+        how_lense=algo._finalize_how_lense() if "algo" in locals() else "" if ("ctx" in locals() and hasattr(locals()["ctx"], "how_lense_enabled")) and locals()["ctx"].how_lense_enabled else "",
+        metadata=getattr(locals().get("algo"), "metadata", None)
+    )
 
 
 def eye(
@@ -103,6 +126,8 @@ def eye(
     backend: Optional[str] = None,
     mode: Optional[str] = None,
     trace_enabled: Optional[bool] = None,
+    what_lense: bool = True,
+    how_lense: bool = False,
 ) -> MatrixLike:
     """Create an identity-like matrix of shape ``(rows, cols)``.
 
@@ -112,11 +137,17 @@ def eye(
         as_numpy: If True, return a numpy array.
     """
     c = cols if cols is not None else rows
-    ctx = _build_context(backend, mode, trace_enabled)
+    ctx = _build_context(backend, mode, trace_enabled, what_lense_enabled=what_lense, how_lense_enabled=how_lense)
     trace = Trace(enabled=ctx.trace_enabled)
     algo = EyeCreation()
     result = algo.execute(rows, c, context=ctx, trace=trace)
-    return _format_result(result, as_numpy=as_numpy)
+    formatted_val = _format_result(result, as_numpy=as_numpy)
+    return LinalgResult(
+        value=formatted_val,
+        what_lense=algo._generate_what_lense() if "algo" in locals() else "" if ("ctx" in locals() and hasattr(locals()["ctx"], "what_lense_enabled")) and locals()["ctx"].what_lense_enabled else "",
+        how_lense=algo._finalize_how_lense() if "algo" in locals() else "" if ("ctx" in locals() and hasattr(locals()["ctx"], "how_lense_enabled")) and locals()["ctx"].how_lense_enabled else "",
+        metadata=getattr(locals().get("algo"), "metadata", None)
+    )
 
 
 def rand(
@@ -130,6 +161,8 @@ def rand(
     backend: Optional[str] = None,
     mode: Optional[str] = None,
     trace_enabled: Optional[bool] = None,
+    what_lense: bool = True,
+    how_lense: bool = False,
 ) -> MatrixLike:
     """Create a random matrix of shape ``(rows, cols)``.
 
@@ -142,8 +175,14 @@ def rand(
         as_numpy: If True, return a numpy array.
     """
     c = cols if cols is not None else rows
-    ctx = _build_context(backend, mode, trace_enabled)
+    ctx = _build_context(backend, mode, trace_enabled, what_lense_enabled=what_lense, how_lense_enabled=how_lense)
     trace = Trace(enabled=ctx.trace_enabled)
     algo = RandCreation()
     result = algo.execute(rows, c, context=ctx, trace=trace, seed=seed, low=low, high=high)
-    return _format_result(result, as_numpy=as_numpy)
+    formatted_val = _format_result(result, as_numpy=as_numpy)
+    return LinalgResult(
+        value=formatted_val,
+        what_lense=algo._generate_what_lense() if "algo" in locals() else "" if ("ctx" in locals() and hasattr(locals()["ctx"], "what_lense_enabled")) and locals()["ctx"].what_lense_enabled else "",
+        how_lense=algo._finalize_how_lense() if "algo" in locals() else "" if ("ctx" in locals() and hasattr(locals()["ctx"], "how_lense_enabled")) and locals()["ctx"].how_lense_enabled else "",
+        metadata=getattr(locals().get("algo"), "metadata", None)
+    )

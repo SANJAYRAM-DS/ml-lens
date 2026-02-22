@@ -13,6 +13,8 @@ Thin wrapper that:
 
 from __future__ import annotations
 
+from mllense.math.linalg.core.metadata import LinalgResult
+
 from typing import Any, Optional, Union
 
 import numpy as np
@@ -44,6 +46,8 @@ def matmul(
     mode: Optional[str] = None,
     algorithm: Optional[str] = None,
     trace_enabled: Optional[bool] = None,
+    what_lense: bool = True,
+    how_lense: bool = False,
 ) -> Any:
     """Multiply two matrices / vectors, behaving like ``numpy.matmul``.
 
@@ -80,7 +84,7 @@ def matmul(
     validate_dimension_limit(b_rows, b_cols)
 
     # ── build execution context ──────────────────────────────────────── #
-    ctx = _build_context(backend, mode, algorithm, trace_enabled)
+    ctx = _build_context(backend, mode, algorithm, trace_enabled, what_lense_enabled=what_lense, how_lense_enabled=how_lense)
 
     # ── resolve algorithm ────────────────────────────────────────────── #
     max_dim = max(a_rows, a_cols, b_rows, b_cols)
@@ -91,7 +95,13 @@ def matmul(
     raw_result = algo.execute(a_int, b_int, context=ctx, trace=trace)
 
     # ── format result ────────────────────────────────────────────────── #
-    return _format_result(raw_result, return_numpy, a_is_1d, b_is_1d)
+    formatted_val = _format_result(raw_result, return_numpy, a_is_1d, b_is_1d)
+    return LinalgResult(
+        value=formatted_val,
+        what_lense=algo._generate_what_lense() if "algo" in locals() else "" if ("ctx" in locals() and hasattr(locals()["ctx"], "what_lense_enabled")) and locals()["ctx"].what_lense_enabled else "",
+        how_lense=algo._finalize_how_lense() if "algo" in locals() else "" if ("ctx" in locals() and hasattr(locals()["ctx"], "how_lense_enabled")) and locals()["ctx"].how_lense_enabled else "",
+        metadata=getattr(locals().get("algo"), "metadata", None)
+    )
 
 
 # ── private helpers ──────────────────────────────────────────────────────── #
@@ -130,6 +140,8 @@ def _build_context(
     mode: Optional[str],
     algorithm: Optional[str],
     trace_enabled: Optional[bool],
+    what_lense_enabled: bool = True,
+    how_lense_enabled: bool = False,
 ) -> ExecutionContext:
     from mllense.math.linalg.config import get_config
 
@@ -138,6 +150,9 @@ def _build_context(
         backend=backend or cfg.default_backend,
         mode=ExecutionMode.from_string(mode or cfg.default_mode),
         trace_enabled=trace_enabled if trace_enabled is not None else cfg.trace_enabled,
+        what_lense_enabled=what_lense_enabled,
+        how_lense_enabled=how_lense_enabled,
+        
         algorithm_hint=algorithm,
     )
 
