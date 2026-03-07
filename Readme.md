@@ -1,325 +1,242 @@
 <div align="center">
 
-<img src="img.png" alt="ML-Lense Logo" width="200"/>
-
-# ML-Lense
+# mllense
 
 ### Understand Machine Learning — Not Just Use It.
 
-Explainable, interpretable, and educational tooling that reveals *how ML really works* under the hood.
+A production-grade, educational ML and linear algebra framework with built-in **explainability lenses** that reveal *how every computation really works*.
 
+[![PyPI version](https://img.shields.io/pypi/v/mllense.svg)](https://pypi.org/project/mllense/)
 [![License](https://img.shields.io/badge/license-MIT-purple.svg)](LICENSE)
-[![Python](https://img.shields.io/badge/python-3.9+-blue.svg)]()
-[![Status](https://img.shields.io/badge/status-active-success.svg)]()
+[![Python](https://img.shields.io/badge/python-3.8+-blue.svg)](https://pypi.org/project/mllense/)
+[![Status](https://img.shields.io/badge/status-active-success.svg)](https://pypi.org/project/mllense/)
 
 </div>
 
 ---
 
-## ✨ What is ML-Lense?
+## ✨ What is mllense?
 
-**ML-Lense** is an open-source library that helps you **see inside machine learning**.
+**mllense** is an open-source Python library that makes machine learning **transparent, educational, and deeply understandable**.
 
-Instead of treating ML as a black box, ML-Lense explains:
+Every function and model ships with two built-in lenses:
 
-- Why a model made a prediction  
-- How parameters were learned  
-- What math drives each algorithm  
-- How features influence outcomes  
-- What happens during training step-by-step  
+- **`what_lense`** — Explains *what* the algorithm is, *why* it exists, and *where* it's used in real ML pipelines.
+- **`how_lense`** — Traces *exactly* what happened computationally: shape checks, arithmetic steps, loop iterations, convergence.
 
-It is designed for:
-
-- Researchers  
-- Students  
-- Engineers  
-- Educators  
-- Curious builders  
-
-If scikit-learn helps you **build models**,  
-ML-Lense helps you **understand them**.
+If scikit-learn helps you **build models**, mllense helps you **understand them**.
 
 ---
 
-## 🧠 Philosophy
-
-Modern ML tooling focuses on:
-
-- Accuracy
-- Speed
-- Scale
-
-But rarely on:
-
-- Understanding
-- Interpretability
-- First-principles learning
-
-ML-Lense exists to change that.
-
-> ML should be understandable, not mysterious.
-
----
-
-## 🔍 Core Idea
-
-Train any model → Get a **deep explanation layer**.
-
-```python
-from sklearn.linear_model import LinearRegression
-from ml_lense import explain
-
-model = LinearRegression().fit(X, y)
-report = explain(model, X, y)
-
-report.show()
-```
-
-ML-Lense generates:
-
-- Parameter reasoning
-- Mathematical derivations
-- Feature importance breakdown
-- Training dynamics
-- Human-readable explanations
-
----
-
-## 🚀 Features
-
-### 1️⃣ Parameter Transparency
-Understand why weights were chosen.
-
-- Linear models → closed-form math
-- Neural nets → gradient dynamics
-- Tree models → split logic
-
-### 2️⃣ Math-Aware Explanations
-Every output maps back to math.
-
-- Loss function analysis
-- Gradient flow visualization
-- Optimization reasoning
-- Statistical assumptions
-
-### 3️⃣ Training Dynamics
-See what happens during learning.
-
-- Convergence behavior
-- Bias vs variance shifts
-- Overfitting detection
-- Learning stability
-
-### 4️⃣ Feature Attribution
-Not just importance — causation-aware insights
-
-- Local explanations
-- Global influence
-- Interaction effects
-- Feature sensitivity curves
-
-### 5️⃣ First-Principles Reports
-ML-Lense produces structured outputs:
-
-- Markdown reports
-- PDF summaries
-- Interactive notebooks
-- Teaching-ready visualizations
-
----
-
-## 📚 Supported Domains (Roadmap)
-
-### Classical ML
-- Linear Regression
-- Logistic Regression
-- SVM
-- kNN
-- Decision Trees
-- Random Forest
-- Gradient Boosting
-
-### Deep Learning
-- MLPs
-- CNNs
-- Transformers (planned)
-- Attention analysis
-
-### Statistics
-- Hypothesis testing insights
-- t-tests, chi-square reasoning
-- Distribution assumptions
-- Sampling diagnostics
-
-### Time Series
-- ARIMA interpretability
-- Seasonality decomposition
-- Forecast uncertainty analysis
-
----
-
-## 🧪 Example Outputs
-
-ML-Lense produces explanations like:
-
-> "Weight w₃ is large because feature variance is high and strongly correlated with the target."
-
-> "Model confidence comes from low residual spread across 92% of samples."
-
-> "Gradient oscillations indicate suboptimal learning rate."
-
----
-
-## 🎯 Use Cases
-
-### 🎓 Education
-- Learn ML intuitively
-- Teach algorithms visually
-- Bridge math ↔ implementation
-
-### 🔬 Research
-- Interpret experimental models
-- Debug training failures
-- Generate explanation reports
-
-### 🏭 Production ML
-- Model debugging
-- Stakeholder explainability
-- Responsible AI documentation
-
----
-
-## 🆚 How is this different?
-
-| Tool | Focus |
-|------|-------|
-| scikit-learn | Model building |
-| SHAP/LIME | Feature attribution |
-| TensorBoard | Training metrics |
-| **ML-Lense** | **Full-stack understanding** |
-
-ML-Lense combines:
-
-- Math
-- Training behavior
-- Interpretability
-- Intuition
-
-In one unified layer.
-
----
-
-## � Installation
+## 🚀 Installation
 
 ```bash
-pip install ml-lense
-```
-
-Or development install:
-
-```bash
-git clone https://github.com/SANJAYRAM-DS/ml-lense
-cd ml-lense
-pip install -e .
+pip install mllense
 ```
 
 ---
 
 ## ⚡ Quick Start
 
+### Linear Algebra (`mllense.math.linalg`)
+
 ```python
-from ml_lense import explain
-from sklearn.datasets import load_diabetes
-from sklearn.linear_model import Ridge
+from mllense.math.linalg import matmul, det, eig, svd, solve
 
-X, y = load_diabetes(return_X_y=True)
-model = Ridge().fit(X, y)
+# Matrix multiplication
+C = matmul([[1, 2], [3, 4]], [[5, 6], [7, 8]])
+print(C)  # [[19.0, 22.0], [43.0, 50.0]]
 
-lens = explain(model, X, y)
+# With explainability lenses
+result = matmul([[1, 2], [3, 4]], [[5, 6], [7, 8]], what_lense=True, how_lense=True)
+print(result.what_lense)  # "=== WHAT: Matrix Multiplication ==="
+print(result.how_lense)   # Step-by-step computation trace
+```
 
-lens.summary()
-lens.math()
-lens.training_dynamics()
-lens.feature_story()
+### ML Models (`mllense.models`)
+
+```python
+from mllense.models import LinearRegression, LogisticRegression, KMeans
+
+model = LinearRegression(what_lense=True, how_lense=True)
+model.fit(X, y)
+result = model.predict(X)
+
+print(result.what_lense)  # Mathematical explanation
+print(result.how_lense)   # Training step trace
 ```
 
 ---
 
-## 📊 Outputs
+## 🔍 The Lenses
 
-ML-Lense can generate:
+### `what_lense` — Theoretical Context
 
-- 📄 Markdown reports
-- 📘 Research-ready PDFs
-- 📊 Visual dashboards
-- 🧠 Math walkthroughs
+Every result carries a human-readable explanation of:
+- 🧠 **WHAT** the algorithm is mathematically
+- 💡 **WHY** it exists and what problem it solves
+- 🏭 **WHERE** it's used in real ML pipelines
+
+```python
+result = matmul(A, B, what_lense=True)
+print(result.what_lense)
+# === WHAT: Matrix Multiplication ===
+# Matrix multiplication combines the rows of the first matrix with
+# the columns of the second. Each element is the sum of products
+# of corresponding elements.
+#
+# === WHY we need it in ML ===
+# It allows computing many linear combinations at once — the core
+# of feed-forward neural networks (Weights * Inputs), attention
+# mechanisms (Q * K^T), and embedding projections.
+#
+# === WHERE it is used in Real ML ===
+# 1. Dense/Linear Layers: Output = Weights @ Inputs + Bias.
+# 2. Convolutions: Often lowered to matmul (im2col).
+# 3. Transformers: Self-attention relies on batched matmuls.
+```
+
+### `how_lense` — Operational Trace
+
+Shows exactly what happened step-by-step:
+
+```python
+result = matmul(A, B, how_lense=True)
+print(result.how_lense)
+# 1. Validated shapes: A(2x2) @ B(2x2) -> Result(2x2).
+# 2. Initialized empty output matrix of shape 2x2.
+# 3. Triple-loop computation (m=2, k=2, n=2):
+#    - Result[0][0] += A[0][0] * B[0][0] (1 * 5 = 5)
+#    - Result[0][0] += A[0][1] * B[1][0] (2 * 7 = 14)
+#    ...
+# 4. Finished matrix multiplication.
+```
 
 ---
 
-## 🧱 Design Principles
+## 📦 Full API Reference
 
-- Minimal API
-- Model-agnostic
-- Math-first
-- Research-grade clarity
-- Documentation-friendly
+### `mllense.math.linalg`
+
+| Category | Functions |
+|---|---|
+| **Matrix Ops** | `matmul`, `add`, `subtract`, `multiply`, `divide`, `scalar_add`, `scalar_multiply` |
+| **Creation** | `zeros`, `ones`, `eye`, `rand` |
+| **Shape** | `transpose`, `reshape`, `flatten`, `vstack`, `hstack` |
+| **Decomposition** | `det`, `inv`, `qr`, `svd`, `eig`, `matrix_trace` |
+| **Solver** | `solve` |
+| **Eigen** | `dominant_eigen` |
+| **Norms** | `vector_norm`, `frobenius_norm`, `spectral_norm` |
+| **Diagnostics** | `condition_number`, `matrix_rank`, `stability_report`, `full_diagnostic_report` |
+| **Config** | `get_config`, `GlobalConfig` |
+| **Constants** | `constants` |
+
+### `mllense.models`
+
+| Model | Import |
+|---|---|
+| Linear Regression | `from mllense.models import LinearRegression` |
+| Logistic Regression | `from mllense.models import LogisticRegression` |
+| Decision Tree Classifier | `from mllense.models import DecisionTreeClassifier` |
+| Decision Tree Regressor | `from mllense.models import DecisionTreeRegressor` |
+| Random Forest Classifier | `from mllense.models import RandomForestClassifier` |
+| Random Forest Regressor | `from mllense.models import RandomForestRegressor` |
+| K-Means Clustering | `from mllense.models import KMeans` |
+
+---
+
+## 🎛️ Global Configuration
+
+```python
+from mllense.math.linalg import GlobalConfig
+
+GlobalConfig.default_backend = "numpy"   # "numpy" | "python"
+GlobalConfig.default_mode = "fast"        # "fast" | "educational"
+GlobalConfig.trace_enabled = True         # Enable how_lense globally
+```
+
+---
+
+## 📊 The Result Object
+
+All operations return a result object that behaves **exactly like the raw value** but carries trace metadata:
+
+```python
+result = matmul(A, B, what_lense=True, how_lense=True)
+
+# Acts like a plain matrix
+print(result)            # [[19.0, 22.0], [43.0, 50.0]]
+print(result[0])         # [19.0, 22.0]
+print(len(result))       # 2
+
+# Educational metadata attached
+print(result.what_lense)     # str — theoretical explanation
+print(result.how_lense)      # str — computation trace
+print(result.algorithm_used) # "naive_matmul"
+print(result.complexity)     # "O(m*k*n)"
+```
+
+---
+
+## 🧱 Architecture
+
+```
+mllense/
+├── math/
+│   └── linalg/          # Linear algebra engine
+│       ├── api/          # Clean public API
+│       ├── algorithms/   # Core implementations (matmul, solve, decomp...)
+│       ├── backend/      # NumPy / Python backends
+│       ├── core/         # Execution context, tracing
+│       ├── diagnostics/  # Condition number, rank, stability
+│       ├── nn/           # Neural network primitives
+│       └── registry/     # Algorithm & backend registry
+└── models/              # ML models
+    ├── linear_model/     # LinearRegression, LogisticRegression
+    ├── tree/             # DecisionTree
+    ├── ensemble/         # RandomForest
+    └── cluster/          # KMeans
+```
+
+---
+
+## 🆚 How is this different?
+
+| Tool | Focus |
+|---|---|
+| scikit-learn | Model building |
+| SHAP / LIME | Feature attribution |
+| TensorBoard | Training metrics |
+| **mllense** | **First-principles understanding of every step** |
 
 ---
 
 ## 🤝 Contributing
 
-We welcome contributors from:
+We welcome contributors from ML research, education, and open-source.
 
-- ML researchers
-- Students
-- Educators
-- Open-source developers
+```bash
+git clone https://github.com/SANJAYRAM-DS/ml-lens
+cd ml-lens
+pip install -e ".[dev]"
+```
 
 Ways to contribute:
-
-- Add model explainers
-- Improve math modules
-- Create tutorials
-- Expand domains (time series, NLP, CV)
-
-See CONTRIBUTING.md for details.
+- Add new algorithm implementations
+- Improve what_lense explanations
+- Expand model support
+- Write tutorials
 
 ---
 
-## 🌍 Vision
+## 📄 License
 
-ML-Lense aims to become:
-
-**The "NumPy for understanding machine learning."**
-
-A universal layer that makes every model:
-
-- Transparent
-- Learnable
-- Explainable
-- Trustworthy
-
----
-
-## � License
-
-MIT License — use freely in research and industry.
-
----
-
-## ⭐ If you like ML-Lense
-
-- Star the repo
-- Share with learners
-- Use in teaching
-- Contribute ideas
-
-**Let's make machine learning understandable.**
+MIT License — use freely in research, education, and industry.
 
 ---
 
 <div align="center">
 
-Built with clarity in mind.
+Built with clarity in mind. | [PyPI](https://pypi.org/project/mllense/) · [GitHub](https://github.com/SANJAYRAM-DS/ml-lens)
 
 </div>

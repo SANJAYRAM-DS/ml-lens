@@ -22,8 +22,12 @@ env/
 ENV/
 .venv/
 .env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 
-# IDES
+# IDEs
 .idea/
 .vscode/
 .cursorignore
@@ -38,5 +42,32 @@ htmlcov/
 .pytest_cache/
 .mypy_cache/
 
-# User specifically requested ignored file
+# Next.js
+frontend/.next/
+frontend/out/
+frontend/node_modules/
+frontend/.vercel/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+
+# Build artifacts
+mllense-0.1.0/
+
+# User specifically requested ignored files
 features_imports.md
+
+# Testing files
+test_generate.py
+test_package_imports.py

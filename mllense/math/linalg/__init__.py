@@ -35,6 +35,8 @@ from mllense.math.linalg.diagnostics.rank import matrix_rank  # noqa: E402
 from mllense.math.linalg.diagnostics.stability import stability_report  # noqa: E402
 from mllense.math.linalg.diagnostics.report import full_diagnostic_report  # noqa: E402
 
+from mllense.math.linalg._internal import constants  # noqa: E402
+
 from mllense.math.linalg.config import GlobalConfig, get_config  # noqa: E402
 from mllense.math.linalg.version import __version__  # noqa: E402
 
@@ -85,6 +87,7 @@ __all__ = [
     "matrix_rank",
     "stability_report",
     "full_diagnostic_report",
+    "constants",
     # Configuration
     "GlobalConfig",
     "get_config",

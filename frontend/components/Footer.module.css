@@ -1,0 +1,103 @@
+.footer {
+    border-top: 1px solid var(--border);
+    margin-top: 80px;
+    background: var(--bg-surface);
+}
+
+.inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 56px 24px 40px;
+    display: flex;
+    gap: 80px;
+    flex-wrap: wrap;
+}
+
+.brand {
+    flex: 0 0 200px;
+}
+
+.logo {
+    width: 36px;
+    height: 36px;
+    object-fit: contain;
+    border-radius: 6px;
+    margin-bottom: 12px;
+}
+
+.tagline {
+    color: var(--text-muted);
+    font-size: 13px;
+    margin-bottom: 16px;
+    line-height: 1.5;
+}
+
+.socials {
+    display: flex;
+    gap: 12px;
+}
+
+.social {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-secondary);
+    font-size: 13px;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.social:hover {
+    color: var(--accent-violet);
+}
+
+.links {
+    display: flex;
+    gap: 60px;
+    flex-wrap: wrap;
+    flex: 1;
+}
+
+.col {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.col a {
+    color: var(--text-muted);
+    font-size: 13px;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.col a:hover {
+    color: var(--accent-violet);
+}
+
+.colTitle {
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+}
+
+.bottom {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 16px 24px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.pip {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--accent-purple);
+}

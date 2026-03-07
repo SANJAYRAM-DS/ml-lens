@@ -1,0 +1,63 @@
+.wrapper {
+    margin: 20px 0;
+}
+
+.filename {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--text-muted);
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-bottom: none;
+    border-radius: 8px 8px 0 0;
+    padding: 6px 16px;
+    display: inline-block;
+}
+
+.block {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent-purple);
+    border-radius: 8px;
+    padding: 20px 24px;
+    overflow-x: auto;
+    position: relative;
+}
+
+.filename+.block {
+    border-radius: 0 8px 8px 8px;
+}
+
+.block pre {
+    margin: 0;
+}
+
+.block code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13.5px;
+    line-height: 1.75;
+    color: #abb2bf;
+}
+
+.copyBtn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    border-radius: 5px;
+    padding: 4px 10px;
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'DM Sans', sans-serif;
+}
+
+.copyBtn:hover {
+    border-color: var(--accent-purple);
+    color: var(--accent-violet);
+}

@@ -1,0 +1,93 @@
+.page {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 56px 24px;
+}
+
+.hero {
+    margin-bottom: 48px;
+}
+
+.title {
+    font-size: 2.2rem;
+    margin-bottom: 10px;
+}
+
+.sub {
+    color: var(--text-secondary);
+    font-size: 1.05rem;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.section {
+    padding: 36px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.section:last-child {
+    border-bottom: none;
+}
+
+.section h2 {
+    font-size: 1.3rem;
+    margin-bottom: 16px;
+}
+
+.section p {
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+}
+
+.note {
+    color: var(--text-muted);
+    font-size: 13px;
+    margin-top: 8px;
+}
+
+.reqGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.reqCard {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.reqName {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.reqDesc {
+    color: var(--text-muted);
+    font-size: 12px;
+}
+
+.nextSteps {
+    padding: 36px 0;
+}
+
+.nextSteps h2 {
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+}
+
+.links {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
