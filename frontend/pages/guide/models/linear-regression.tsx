@@ -50,10 +50,10 @@ y = np.array([2.1, 3.2, 4.0, 5.1])
 model = LinearRegression(fit_intercept=True)
 model.fit(X, y)
 result = model.predict(X)
-print(result)           # ModelResult with predicted values
+print(result)           # ModelResult — prints predicted values
+print(result.value)     # Raw ndarray of predictions
 print(model.coef_)      # Learned coefficients
-print(model.intercept_) # Learned intercept
-print(model.score(X, y))# R² score`} />
+print(model.intercept_) # Learned intercept`} />
 
                 <h2 id="lenses">Using the Lenses</h2>
                 <h3>what_lense — Theoretical Context</h3>

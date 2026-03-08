@@ -46,10 +46,8 @@ model = LogisticRegression(learning_rate=0.01, max_iter=1000)
 model.fit(X_train, y_train)
 
 result = model.predict(X_test)
-print(result)        # 0/1 class labels
-
-proba = model.predict_proba(X_test)
-print(proba)         # [[p0, p1], ...] probabilities`} />
+print(result)        # 0/1 class labels (ModelResult)
+print(result.value)  # Raw ndarray of binary predictions`} />
 
                 <h2 id="lenses">Using the Lenses</h2>
                 <CodeBlock code={`model = LogisticRegression(what_lense=True, how_lense=True)

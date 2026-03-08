@@ -31,7 +31,7 @@ export default function ModelsGuide() {
 
                 <h2 id="logistic">LogisticRegression</h2>
                 <p>Binary classification using gradient descent + sigmoid activation.</p>
-                <CodeBlock code={`from mllense.models import LogisticRegression\nmodel = LogisticRegression(learning_rate=0.01, max_iter=1000, what_lense=True)\nmodel.fit(X, y)\nresult = model.predict(X)\nproba = model.predict_proba(X)`} />
+                <CodeBlock code={`from mllense.models import LogisticRegression\nmodel = LogisticRegression(learning_rate=0.01, max_iter=1000, what_lense=True)\nmodel.fit(X, y)\nresult = model.predict(X)  # Returns ModelResult with 0/1 class labels`} />
 
                 <h2 id="tree">DecisionTree</h2>
                 <p>CART-style tree splitting. Both classifier and regressor variants available.</p>

@@ -43,11 +43,11 @@ export default function DecisionTreeClassifierPage() {
 model = DecisionTreeClassifier(max_depth=5, what_lense=True, how_lense=True)
 model.fit(X_train, y_train)
 result = model.predict(X_test)
-print(result)
+print(result)           # ModelResult — prints predicted class labels
+print(result.value)     # Raw ndarray of class predictions
 print(result.how_lense)
 # → "1. Fitting Decision Tree Classifier (max_depth=5)
-#    2. Recursively splitting data to maximize information gain..."
-print(model.score(X_test, y_test))`} />
+#    2. Recursively splitting data to maximize information gain..."`} />
 
                 <h2 id="params">Parameters</h2>
                 <table>

@@ -44,10 +44,10 @@ print(model.how_lense)`,
         title: 'Linear Algebra Walkthrough',
         description: 'Chain matmul → svd → eig with educational traces showing every computation step.',
         tags: ['linalg', 'what_lense', 'how_lense'],
-        preview: `from mllense.math.linalg import matmul, svd, eig
+        preview: `from mllense.math.linalg import matmul, svd, eig, transpose
 C = matmul(A, B, how_lense=True)
-U, S, Vt = svd(C, what_lense=True)
-vals, vecs = eig(C @ C.T)`,
+U, S, Vt = svd(C.value, what_lense=True)
+vals, vecs = eig(matmul(C.value, transpose(C.value)).value)`,
         href: '/examples/linalg-walkthrough',
     },
     {
@@ -55,11 +55,11 @@ vals, vecs = eig(C @ C.T)`,
         title: 'Full ML Pipeline',
         description: 'End-to-end preprocessing + RandomForest + lenses — model the complete workflow.',
         tags: ['Models', 'linalg', 'Pipeline'],
-        preview: `from mllense.math.linalg import matmul, normalize
+        preview: `from mllense.math.linalg import matmul, transpose
 from mllense.models import RandomForestClassifier
-X_norm = normalize(X_raw)
+# Standardize manually: (X - mean) / std
 model = RandomForestClassifier(n_estimators=100, what_lense=True)
-model.fit(X_norm, y)
+model.fit(X_train, y)
 result = model.predict(X_test)`,
         href: '/examples/full-pipeline',
     },
